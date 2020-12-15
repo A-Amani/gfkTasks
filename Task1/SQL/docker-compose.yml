@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres
+    container_name: psqlContainer
+    restart: always
+    volumes:
+      - $PWD/dump/:/var/lib/postgresql/dump
+      - $PWD/dataset_B.tsv/:/var/lib/postgresql/mytsv/dataset_B.tsv
+      - $PWD/commands/schema.sh:/docker-entrypoint-initdb.d/1-schema.sh
+      - $PWD/commands/read_tsv.sh:/docker-entrypoint-initdb.d/2-read_tsv.sh
+      - $PWD/commands/2a-rank.sh:/docker-entrypoint-initdb.d/3-rankQuery.sh
+      - $PWD/commands/2b-minMax.sh:/docker-entrypoint-initdb.d/4-minMaxQuery.sh
+      - $PWD/commands/2c-medianQuery.sh:/docker-entrypoint-initdb.d/5-medianQuery.sh
+
+
+    ports:
+      - 5432:5432
+    environment:
+       POSTGRES_PASSWORD: super_duper_password
+       POSTGRES_DB: mydb
+
+#volumes:
+# dump:
+

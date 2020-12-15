@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  mongo:
+    image: mongo:3.6.1
+    container_name: mongoContainer
+    restart: always
+    volumes:
+      - $PWD/data/:/data/mycsv
+      - $PWD/commands/read_csv.sh:/docker-entrypoint-initdb.d/1-read_csv.sh
+    command: --smallfiles    
+
+
+
+    ports:
+      - 27017:27017
+    #environment:
+       #MONGO_INITDB_ROOT_USERNAME: mongoadmin 
+       #MONGO_INITDB_ROOT_PASSWORD: super_duper_password
+
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongoContainer-express
+    restart: always
+    ports:
+      - 8081:8081
